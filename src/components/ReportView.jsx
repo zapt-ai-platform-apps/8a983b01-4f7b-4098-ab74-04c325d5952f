@@ -2,7 +2,7 @@ import React from 'react';
 import LegalRequirements from './LegalRequirements';
 import RiskAssessment from './RiskAssessment';
 import MethodStatement from './MethodStatement';
-import { ExportControls } from './ExportControls';
+import ExportControls from './ExportControls';
 import { handleExport } from '../utils/exportHandler';
 import { ReportHeader } from './ReportHeader';
 
