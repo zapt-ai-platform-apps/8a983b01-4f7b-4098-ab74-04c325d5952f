@@ -1,24 +1,21 @@
 import { createEvent } from '../supabaseClient';
-
-const validateResponseStructure = (response, expectedFields) => {
-  if (!response || typeof response !== 'object') return false;
-  return expectedFields.every(field => response.hasOwnProperty(field));
-};
+import { validateResponseStructure } from '../utils/validation';
+import { createLegislationPrompt, createRiskPrompt, createMethodPrompt } from '../prompts/reportPrompts';
 
 export const generateReportData = async (formData) => {
   console.log('Starting report generation with data:', formData);
-  
+
   const [synopsisRes, risksRes, methodRes] = await Promise.all([
     createEvent('chatgpt_request', {
-      prompt: `Generate UK health and safety legislation synopsis for: ${formData.projectDescription}. Respond in strict JSON format: {synopsis: string, obligations: string[]}`,
+      prompt: createLegislationPrompt(formData),
       response_type: 'json'
     }),
     createEvent('chatgpt_request', {
-      prompt: `Create risk assessment table for: ${formData.identifiedRisks}. Respond in strict JSON format: {risks: {risk: string, mitigation: string}[]}`,
+      prompt: createRiskPrompt(formData),
       response_type: 'json'
     }),
     createEvent('chatgpt_request', {
-      prompt: `Create method statement for: ${formData.projectSteps}. Respond in strict JSON format: {methodStatement: string[]}`,
+      prompt: createMethodPrompt(formData),
       response_type: 'json'
     })
   ]);
@@ -26,15 +23,18 @@ export const generateReportData = async (formData) => {
   console.log('AI responses received:', { synopsisRes, risksRes, methodRes });
 
   if (!validateResponseStructure(synopsisRes?.response, ['synopsis', 'obligations'])) {
-    throw new Error('Invalid legislation response structure');
+    console.error('Invalid legislation response structure:', synopsisRes?.response);
+    throw new Error('Invalid legislation response structure - expected {synopsis: string, obligations: string[]}');
   }
   
   if (!validateResponseStructure(risksRes?.response, ['risks'])) {
-    throw new Error('Invalid risk assessment response structure');
+    console.error('Invalid risk response structure:', risksRes?.response);
+    throw new Error('Invalid risk assessment response structure - expected {risks: {risk: string, mitigation: string}[]}');
   }
   
   if (!validateResponseStructure(methodRes?.response, ['methodStatement'])) {
-    throw new Error('Invalid method statement response structure');
+    console.error('Invalid method statement structure:', methodRes?.response);
+    throw new Error('Invalid method statement response structure - expected {methodStatement: string[]}');
   }
 
   return {
