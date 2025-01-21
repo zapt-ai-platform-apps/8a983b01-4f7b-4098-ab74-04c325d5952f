@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import * as Sentry from '@sentry/browser';
-import { createEvent } from './supabaseClient';
+import { createEvent } from '../supabaseClient';
 
 export function useReport() {
   const [report, setReport] = useState(null);
