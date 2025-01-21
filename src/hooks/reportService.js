@@ -40,8 +40,8 @@ export const generateReportData = async (formData) => {
   return {
     ...formData,
     generatedAt: new Date().toISOString(),
-    legislation: synopsisRes.response,
-    risks: risksRes.response.risks,
-    methodStatement: methodRes.response.methodStatement
+    legislation: synopsisRes,
+    risks: risksRes.risks,
+    methodStatement: methodRes.methodStatement
   };
 };
