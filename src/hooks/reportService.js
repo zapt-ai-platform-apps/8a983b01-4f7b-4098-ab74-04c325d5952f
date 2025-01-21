@@ -22,17 +22,17 @@ export const generateReportData = async (formData) => {
 
   console.log('AI responses received:', { synopsisRes, risksRes, methodRes });
 
-  if (!validateResponseStructure(synopsisRes?.response, ['synopsis', 'obligations'])) {
+  if (!validateResponseStructure(synopsisRes?, ['synopsis', 'obligations'])) {
     console.error('Invalid legislation response structure:', synopsisRes?.response);
     throw new Error('Invalid legislation response structure - expected {synopsis: string, obligations: string[]}');
   }
   
-  if (!validateResponseStructure(risksRes?.response, ['risks'])) {
+  if (!validateResponseStructure(risksRes?, ['risks'])) {
     console.error('Invalid risk response structure:', risksRes?.response);
     throw new Error('Invalid risk assessment response structure - expected {risks: {risk: string, mitigation: string}[]}');
   }
   
-  if (!validateResponseStructure(methodRes?.response, ['methodStatement'])) {
+  if (!validateResponseStructure(methodRes?, ['methodStatement'])) {
     console.error('Invalid method statement structure:', methodRes?.response);
     throw new Error('Invalid method statement response structure - expected {methodStatement: string[]}');
   }
