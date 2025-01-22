@@ -11,7 +11,10 @@ export const ReportHeader = ({ report, onSave, onNew }) => (
         Generated: {new Date(report.generatedAt).toLocaleDateString()}
       </p>
       <p className="text-sm text-gray-500 mt-1">
-        Contracting Organisation: {report.organisationName} | Client: {report.clientName} ({report.organisationRole})
+        Contracting Organisation: {report.organisationName} | Client: {report.clientName}
+      </p>
+      <p className="text-sm text-gray-500 mt-1">
+        Role: {report.organisationRole}
       </p>
     </div>
     <div className="flex space-x-4">
