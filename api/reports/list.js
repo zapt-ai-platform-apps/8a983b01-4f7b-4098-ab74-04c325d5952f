@@ -1,4 +1,4 @@
-import { authenticateUser } from './_apiUtils.js';
+import { authenticateUser } from '../_apiUtils.js';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import { eq } from 'drizzle-orm';
