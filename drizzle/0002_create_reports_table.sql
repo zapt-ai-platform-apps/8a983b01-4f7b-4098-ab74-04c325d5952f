@@ -1,0 +1,7 @@
+CREATE TABLE reports (
+  id SERIAL PRIMARY KEY,
+  user_id UUID NOT NULL,
+  title TEXT NOT NULL,
+  content TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);

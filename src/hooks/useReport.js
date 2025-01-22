@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import * as Sentry from '@sentry/browser';
 import { generateReportData } from './reportService';
-import { saveReports, loadReports } from './storageService';
+import { supabase } from '../supabaseClient';
+import { fetchReportsList, saveReport } from '../api/reportApi';
 
 export function useReport() {
   const [report, setReport] = useState(null);
@@ -9,14 +10,21 @@ export function useReport() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  useEffect(() => {
+  const fetchReports = async () => {
     try {
-      const loaded = loadReports();
-      setSavedReports(loaded);
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      const data = await fetchReportsList(session.access_token);
+      setSavedReports(data);
     } catch (err) {
       Sentry.captureException(err);
       console.error('Failed to load reports:', err);
     }
+  };
+
+  useEffect(() => {
+    fetchReports();
   }, []);
 
   const handleGenerateReport = async (formData) => {
@@ -26,28 +34,31 @@ export function useReport() {
       const newReport = await generateReportData(formData);
       setReport(newReport);
       
-      setSavedReports(prev => {
-        const updated = [...prev, newReport];
-        saveReports(updated);
-        return updated;
-      });
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error('Not authenticated');
+
+      await saveReport(session.access_token, newReport.projectName, JSON.stringify(newReport));
+      await fetchReports();
     } catch (err) {
       Sentry.captureException(err);
       console.error('Report generation error:', err);
-      setError('Report generation failed: ' + (err.message || 'Invalid response format from AI service'));
+      setError(err.message || 'Failed to generate and save report');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSaveReport = () => {
+  const handleSaveReport = async () => {
     try {
-      saveReports(savedReports);
-      console.log('Reports saved successfully');
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error('Not authenticated');
+
+      await saveReport(session.access_token, report.projectName, JSON.stringify(report));
+      await fetchReports();
     } catch (err) {
       Sentry.captureException(err);
       console.error('Save report error:', err);
-      setError('Failed to save report to browser storage');
+      setError('Failed to save report: ' + err.message);
     }
   };
 

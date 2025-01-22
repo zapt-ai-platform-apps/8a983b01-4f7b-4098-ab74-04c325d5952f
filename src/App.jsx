@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReportView from './components/ReportView';
 import ReportForm from './components/ReportForm';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import SavedReportsList from './components/SavedReportsList';
 import { useReport } from './hooks/useReport';
+import { AuthModal } from './components/AuthModal';
+import { UserMenu } from './components/UserMenu';
+import { supabase } from './supabaseClient';
 
 function App() {
   const [showForm, setShowForm] = useState(false);
+  const [session, setSession] = useState(null);
   const {
     report,
     savedReports,
@@ -18,10 +22,28 @@ function App() {
     setReport
   } = useReport();
 
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  if (!session) {
+    return <AuthModal />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <main className="container mx-auto px-4 py-8 max-w-4xl">
-        <Header />
+        <Header>
+          <UserMenu user={session.user} />
+        </Header>
         
         {report ? (
           <ReportView 
@@ -53,7 +75,7 @@ function App() {
             </div>
             <SavedReportsList 
               reports={savedReports} 
-              onSelect={(selectedReport) => setReport(selectedReport)}
+              onSelect={(selectedReport) => setReport(JSON.parse(selectedReport.content))}
             />
           </div>
         )}

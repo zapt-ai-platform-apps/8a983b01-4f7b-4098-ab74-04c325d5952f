@@ -3,13 +3,13 @@
 ## Saving Reports
 1. **Generate or Update Report**
    - After completing report generation or making changes, click the save icon (floppy disk) in the report header
-   - System automatically saves to browser storage
+   - System automatically saves to secure cloud storage
    - Success: Brief highlight animation on save button
 
-2. **Storage Management**
-   - Reports persist across browser sessions
-   - Maximum 50 reports stored (oldest auto-deleted when limit reached)
-   - Data encrypted in localStorage
+2. **Cloud Storage**
+   - Reports are securely stored in encrypted database
+   - Accessible from any device with your login credentials
+   - No storage limits - save as many reports as needed
 
 ## Loading Reports
 1. **Access Saved Reports**
@@ -21,6 +21,6 @@
    - Last modified timestamp
    - Organisation/client relationship
 
-3. **Multi-Device Sync**
-   - Reports only available on current browser/device
-   - Export/import functionality available for cross-device transfer
+3. **Cross-Device Access**
+   - Reports available on any device after sign-in
+   - Real-time sync across all devices
