@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import FormField from './FormField';
 import { initialFormData } from '../utils/formConfig';
+import { ErrorMessage } from './ErrorMessage';
+import { SubmitButton } from './SubmitButton';
 
 const ReportForm = ({ onSubmit, loading, error }) => {
   const [formData, setFormData] = useState(initialFormData);
@@ -12,7 +14,7 @@ const ReportForm = ({ onSubmit, loading, error }) => {
 
   return (
     <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
-      {error && <div className="mb-4 p-3 bg-red-50 text-red-700 rounded">{error}</div>}
+      {error && <ErrorMessage error={error} />}
 
       <div className="space-y-6">
         <FormField
@@ -66,13 +68,7 @@ const ReportForm = ({ onSubmit, loading, error }) => {
           placeholder="Enter each step on a new line"
         />
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-400 cursor-pointer transition-colors"
-        >
-          {loading ? 'Generating Report...' : 'Generate Safety Report'}
-        </button>
+        <SubmitButton loading={loading} />
       </div>
     </form>
   );

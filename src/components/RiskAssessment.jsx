@@ -21,7 +21,7 @@ const RiskAssessment = ({ risks }) => (
           </tr>
         </thead>
         <tbody>
-          {risks.map((risk, index) => (
+          {risks?.map((risk, index) => (
             <tr key={index} className="border-b hover:bg-gray-50">
               <td className="p-3">{risk.risk}</td>
               <td className={`p-3 text-${severityColors[risk.severity]}`}>
@@ -31,9 +31,9 @@ const RiskAssessment = ({ risks }) => (
               <td className="p-3">{risk.mitigation}</td>
               <td className="p-3 text-sm">
                 <ul className="list-disc pl-4">
-                  {risk.legalReferences.map((ref, refIndex) => (
+                  {risk.legalReferences?.map((ref, refIndex) => (
                     <li key={refIndex}>{ref}</li>
-                  ))}
+                  )) ?? []}
                 </ul>
               </td>
             </tr>

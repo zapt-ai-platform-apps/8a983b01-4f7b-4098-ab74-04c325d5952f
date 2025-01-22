@@ -1,7 +1,7 @@
 export const validateResponseStructure = (response, expectedFields) => {
   if (!response || typeof response !== 'object') return false;
   
-  return expectedFields.every(field => {
+  const hasAllFields = expectedFields.every(field => {
     if (!response.hasOwnProperty(field)) return false;
     
     if (field === 'synopsis' && typeof response[field] !== 'string') return false;
@@ -11,4 +11,6 @@ export const validateResponseStructure = (response, expectedFields) => {
     
     return true;
   });
+
+  return hasAllFields;
 };
