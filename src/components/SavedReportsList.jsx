@@ -15,7 +15,7 @@ const SavedReportsList = ({ reports, onSelect }) => {
           >
             <h3 className="font-medium text-gray-800">{report.projectName}</h3>
             <p className="text-sm text-gray-500 mt-1">
-              {report.organisationName} → {report.clientName}
+              Contracting Organisation: {report.organisationName} | Client: {report.clientName}
             </p>
             <div className="text-xs text-gray-400 mt-2">
               Last updated: {new Date(report.generatedAt).toLocaleDateString()}

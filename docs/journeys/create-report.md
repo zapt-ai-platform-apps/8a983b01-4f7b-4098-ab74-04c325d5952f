@@ -4,8 +4,8 @@
    - Click the "New Report" icon (document with plus symbol) in the header
    - System clears any previous data and shows empty report form
 
-2. **Organisation Details Entry**
-   - Input organisation name (required field validation)
+2. **Contracting Organisation Details Entry**
+   - Input contracting organisation name (required field validation)
    - Provide full project name/title (minimum 10 characters)
    - Describe organisation's role using dropdown options:
      - Principal Contractor

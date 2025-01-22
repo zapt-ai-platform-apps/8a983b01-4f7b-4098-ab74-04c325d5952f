@@ -5,7 +5,7 @@ const FormFields = ({ formData, setFormData }) => {
   return (
     <>
       <FormField
-        label="Organisation Name *"
+        label="Contracting Organisation Name *"
         name="organisationName"
         value={formData.organisationName}
         onChange={(value) => setFormData(prev => ({...prev, organisationName: value}))}
@@ -38,7 +38,7 @@ const FormFields = ({ formData, setFormData }) => {
       />
 
       <FormField
-        label="Organisation's Role *"
+        label="Contracting Organisation's Role *"
         name="organisationRole"
         value={formData.organisationRole}
         onChange={(value) => setFormData(prev => ({...prev, organisationRole: value}))}
