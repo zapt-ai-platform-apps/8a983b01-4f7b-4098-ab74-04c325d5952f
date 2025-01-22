@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReportView from './components/ReportView';
 import ReportForm from './components/ReportForm';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import SavedReportsList from './components/SavedReportsList';
 import { useReport } from './hooks/useReport';
 
 function App() {
+  const [showForm, setShowForm] = useState(false);
   const {
     report,
     savedReports,
@@ -21,18 +23,39 @@ function App() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <Header />
         
-        {!report ? (
+        {report ? (
+          <ReportView 
+            report={report}
+            onSave={saveReport}
+            onNew={() => {
+              setReport(null);
+              setShowForm(false);
+            }}
+          />
+        ) : showForm ? (
           <ReportForm 
-            onSubmit={generateReport} 
+            onSubmit={(formData) => {
+              generateReport(formData);
+              setShowForm(false);
+            }}
             loading={loading} 
             error={error}
           />
         ) : (
-          <ReportView 
-            report={report}
-            onSave={saveReport}
-            onNew={() => setReport(null)}
-          />
+          <div className="space-y-8">
+            <div className="text-center">
+              <button 
+                onClick={() => setShowForm(true)}
+                className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 cursor-pointer transition-colors"
+              >
+                Start New Report
+              </button>
+            </div>
+            <SavedReportsList 
+              reports={savedReports} 
+              onSelect={(selectedReport) => setReport(selectedReport)}
+            />
+          </div>
         )}
       </main>
 

@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as Sentry from '@sentry/browser';
 import { generateReportData } from './reportService';
-import { saveReports } from './storageService';
+import { saveReports, loadReports } from './storageService';
 
 export function useReport() {
   const [report, setReport] = useState(null);
@@ -9,13 +9,28 @@ export function useReport() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  useEffect(() => {
+    try {
+      const loaded = loadReports();
+      setSavedReports(loaded);
+    } catch (err) {
+      Sentry.captureException(err);
+      console.error('Failed to load reports:', err);
+    }
+  }, []);
+
   const handleGenerateReport = async (formData) => {
     try {
       setLoading(true);
       setError('');
       const newReport = await generateReportData(formData);
       setReport(newReport);
-      setSavedReports(prev => [...prev, newReport]);
+      
+      setSavedReports(prev => {
+        const updated = [...prev, newReport];
+        saveReports(updated);
+        return updated;
+      });
     } catch (err) {
       Sentry.captureException(err);
       console.error('Report generation error:', err);
@@ -28,7 +43,7 @@ export function useReport() {
   const handleSaveReport = () => {
     try {
       saveReports(savedReports);
-      console.log('Reports saved to localStorage');
+      console.log('Reports saved successfully');
     } catch (err) {
       Sentry.captureException(err);
       console.error('Save report error:', err);

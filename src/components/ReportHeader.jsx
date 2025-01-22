@@ -10,6 +10,9 @@ export const ReportHeader = ({ report, onSave, onNew }) => (
       <p className="text-sm text-gray-500 mt-1">
         Generated: {new Date(report.generatedAt).toLocaleDateString()}
       </p>
+      <p className="text-sm text-gray-500 mt-1">
+        {report.organisationName} → {report.clientName} ({report.organisationRole})
+      </p>
     </div>
     <div className="flex space-x-4">
       <Tooltip content="Save Report">
