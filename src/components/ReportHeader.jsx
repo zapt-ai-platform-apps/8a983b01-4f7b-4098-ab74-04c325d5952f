@@ -34,13 +34,13 @@ export const ReportHeader = ({ report, onSave, onNew, saving }) => (
           </svg>
         </button>
       </Tooltip>
-      <Tooltip content="New Report">
+      <Tooltip content="Back to List">
         <button
           onClick={onNew}
           className="p-2 text-gray-600 hover:text-blue-600 transition-colors"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
         </button>
       </Tooltip>

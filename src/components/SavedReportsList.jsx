@@ -14,7 +14,7 @@ const SavedReportsList = ({ reports, onSelect }) => {
             >
               <h3 className="font-medium text-gray-800">{report.title}</h3>
               <div className="text-xs text-gray-400 mt-2">
-                Created: {new Date(report.created_at).toLocaleDateString()}
+                Created: {new Date(report.createdAt).toLocaleDateString()}
               </div>
             </div>
           ))
