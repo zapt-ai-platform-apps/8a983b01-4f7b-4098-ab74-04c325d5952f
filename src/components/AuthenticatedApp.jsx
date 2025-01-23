@@ -16,6 +16,7 @@ const AuthenticatedApp = ({ session }) => {
     loading,
     saving,
     error,
+    loadingReports,
     generateReport,
     saveReport,
     setReport
@@ -62,6 +63,7 @@ const AuthenticatedApp = ({ session }) => {
             <SavedReportsList 
               reports={savedReports} 
               onSelect={(selectedReport) => setReport(JSON.parse(selectedReport.content))}
+              loading={loadingReports}
             />
           </div>
         )}

@@ -9,10 +9,12 @@ export function useReport() {
   const [savedReports, setSavedReports] = useState([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [loadingReports, setLoadingReports] = useState(true);
   const [error, setError] = useState('');
 
   const fetchReports = async () => {
     try {
+      setLoadingReports(true);
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) return;
 
@@ -21,6 +23,8 @@ export function useReport() {
     } catch (err) {
       Sentry.captureException(err);
       console.error('Failed to load reports:', err);
+    } finally {
+      setLoadingReports(false);
     }
   };
 
@@ -71,6 +75,7 @@ export function useReport() {
     savedReports,
     loading,
     saving,
+    loadingReports,
     error,
     generateReport: handleGenerateReport,
     saveReport: handleSaveReport,
