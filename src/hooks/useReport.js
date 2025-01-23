@@ -8,6 +8,7 @@ export function useReport() {
   const [report, setReport] = useState(null);
   const [savedReports, setSavedReports] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
   const fetchReports = async () => {
@@ -50,6 +51,7 @@ export function useReport() {
 
   const handleSaveReport = async () => {
     try {
+      setSaving(true);
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error('Not authenticated');
 
@@ -59,6 +61,8 @@ export function useReport() {
       Sentry.captureException(err);
       console.error('Save report error:', err);
       setError('Failed to save report: ' + err.message);
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -66,6 +70,7 @@ export function useReport() {
     report,
     savedReports,
     loading,
+    saving,
     error,
     generateReport: handleGenerateReport,
     saveReport: handleSaveReport,

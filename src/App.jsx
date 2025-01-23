@@ -16,6 +16,7 @@ function App() {
     report,
     savedReports,
     loading,
+    saving,
     error,
     generateReport,
     saveReport,
@@ -53,6 +54,7 @@ function App() {
               setReport(null);
               setShowForm(false);
             }}
+            saving={saving}
           />
         ) : showForm ? (
           <ReportForm 

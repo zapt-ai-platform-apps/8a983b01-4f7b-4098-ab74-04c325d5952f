@@ -6,10 +6,10 @@ import ExportControls from './ExportControls';
 import { handleExport } from '../utils/exportHandler';
 import { ReportHeader } from './ReportHeader';
 
-const ReportView = ({ report, onSave, onNew }) => {
+const ReportView = ({ report, onSave, onNew, saving }) => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
-      <ReportHeader report={report} onSave={onSave} onNew={onNew} />
+      <ReportHeader report={report} onSave={onSave} onNew={onNew} saving={saving} />
       
       <LegalRequirements legislation={report.legislation} />
       <RiskAssessment risks={report.risks} />
