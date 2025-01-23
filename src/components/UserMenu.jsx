@@ -34,7 +34,7 @@ export const UserMenu = ({ user }) => {
           </div>
           <div className="p-2">
             <button
-              onClick={handleSignOut}
+              onClick={() => handleSignOut(setIsOpen)}
               className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 rounded-md transition-colors cursor-pointer flex items-center gap-2"
             >
               <svg 

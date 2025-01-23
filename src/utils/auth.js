@@ -12,6 +12,8 @@ export const handleSignOut = async (setIsOpen) => {
     Sentry.captureException(error);
     console.error('Sign out exception:', error);
   } finally {
-    setIsOpen(false);
+    if (typeof setIsOpen === 'function') {
+      setIsOpen(false);
+    }
   }
 };
