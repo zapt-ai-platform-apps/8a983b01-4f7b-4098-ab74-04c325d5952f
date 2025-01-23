@@ -1,10 +1,19 @@
 import React from 'react';
 import { supabase } from '../supabaseClient';
+import * as Sentry from '@sentry/browser';
 
 export const UserMenu = ({ user }) => {
   const handleSignOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) console.error('Sign out error:', error);
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        Sentry.captureException(error);
+        console.error('Sign out error:', error);
+      }
+    } catch (error) {
+      Sentry.captureException(error);
+      console.error('Sign out exception:', error);
+    }
   };
 
   return (
