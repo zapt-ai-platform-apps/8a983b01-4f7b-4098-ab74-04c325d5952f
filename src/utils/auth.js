@@ -8,6 +8,7 @@ export const handleSignOut = async (setIsOpen) => {
       Sentry.captureException(error);
       console.error('Sign out error:', error);
     }
+    window.location.reload(); // Force full page reload to clear state
   } catch (error) {
     Sentry.captureException(error);
     console.error('Sign out exception:', error);

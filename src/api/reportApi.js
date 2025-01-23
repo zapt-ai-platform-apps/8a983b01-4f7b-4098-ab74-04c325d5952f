@@ -5,6 +5,10 @@ export async function fetchReportsList(accessToken) {
     },
   });
   
+  if (response.status === 401) {
+    throw new Error('Unauthorized');
+  }
+  
   if (!response.ok) throw new Error('Failed to fetch reports');
   
   return await response.json();
@@ -19,6 +23,10 @@ export async function saveReport(accessToken, title, content) {
     },
     body: JSON.stringify({ title, content }),
   });
+
+  if (response.status === 401) {
+    throw new Error('Unauthorized');
+  }
 
   if (!response.ok) throw new Error('Failed to save report');
 }
