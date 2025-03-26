@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { AuthModal } from './components/AuthModal';
 import { supabase } from './supabaseClient';
-import AuthenticatedApp from './components/AuthenticatedApp';
+import AuthModal from './modules/auth/components/AuthModal';
+import AuthenticatedApp from './modules/report/components/AuthenticatedApp';
+import UIProvider from './modules/ui/providers/UIProvider';
 
 function App() {
   const [session, setSession] = useState(null);
@@ -18,11 +19,11 @@ function App() {
     return () => subscription.unsubscribe();
   }, []);
 
-  if (!session) {
-    return <AuthModal />;
-  }
-
-  return <AuthenticatedApp session={session} />;
+  return (
+    <UIProvider>
+      {!session ? <AuthModal /> : <AuthenticatedApp session={session} />}
+    </UIProvider>
+  );
 }
 
 export default App;
